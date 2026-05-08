@@ -138,6 +138,25 @@ export default function App() {
   const isTauri =
     typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
 
+  // In Tauri mode the window is resizable; scale the iPod to fit while keeping
+  // its 420×674 aspect ratio. We use CSS `zoom` (not `transform: scale`) so
+  // click-wheel hit areas scale along with the visuals.
+  useEffect(() => {
+    if (!isTauri) return;
+    const NATURAL_W = 440;
+    const NATURAL_H = 700;
+    const apply = () => {
+      const z = Math.min(
+        window.innerWidth / NATURAL_W,
+        window.innerHeight / NATURAL_H,
+      );
+      document.documentElement.style.setProperty("--ipod-zoom", String(z));
+    };
+    apply();
+    window.addEventListener("resize", apply);
+    return () => window.removeEventListener("resize", apply);
+  }, [isTauri]);
+
   const ipod = (
     <div
       data-tauri-drag-region
