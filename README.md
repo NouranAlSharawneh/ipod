@@ -1,5 +1,7 @@
 # iPod
 
+![iPod screenshot](public/screenshot.png)
+
 A web-based recreation of the classic iPod that controls your real Apple Music library on macOS. The frontend renders a click-wheel UI; an Express bridge translates HTTP requests into AppleScript commands against `Music.app`.
 
 Browsers can't talk to native apps directly, so this only works on a Mac with `Music.app` open and signed into your Apple Music account. The trade-off versus a public web app: no Apple Developer fee, full library access, real album art, real playback.
