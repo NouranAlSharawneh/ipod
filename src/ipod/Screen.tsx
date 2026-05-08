@@ -1,12 +1,15 @@
 import { MenuList } from "./MenuList";
 import { NowPlaying } from "./NowPlaying";
+import { BatteryIcon } from "./BatteryIcon";
 import type { PlayerState } from "../state/api";
 import type { Frame } from "../state/types";
 import { titleFor } from "../state/loadView";
+import type { Battery } from "../hooks/useBattery";
 
 type Props = {
   frame: Frame;
   player: PlayerState | null;
+  battery: Battery;
   onActivate: (i: number) => void;
 };
 
@@ -22,7 +25,7 @@ function PlayIndicator({ player }: { player: PlayerState | null }) {
   );
 }
 
-export function Screen({ frame, player, onActivate }: Props) {
+export function Screen({ frame, player, battery, onActivate }: Props) {
   const isNowPlaying = frame.view.kind === "now-playing";
 
   return (
@@ -33,10 +36,8 @@ export function Screen({ frame, player, onActivate }: Props) {
       <div className="ipod-titlebar h-5 flex items-center justify-between px-2 text-[11px] font-semibold text-black/80">
         <PlayIndicator player={player} />
         <span className="truncate">{titleFor(frame.view)}</span>
-        <span className="w-5 flex justify-end">
-          <span className="inline-block border border-black/60 rounded-sm px-0.75 py-px text-[8px] leading-none">
-            ▮▮▮
-          </span>
+        <span className="flex justify-end">
+          <BatteryIcon battery={battery} />
         </span>
       </div>
 
@@ -46,15 +47,11 @@ export function Screen({ frame, player, onActivate }: Props) {
         <MenuList
           items={frame.items}
           selected={frame.selected}
+          loaded={frame.loaded}
           onActivate={onActivate}
         />
       )}
 
-      {!frame.loaded && !isNowPlaying && (
-        <div className="absolute right-2 top-6 text-[10px] text-gray-500">
-          …
-        </div>
-      )}
     </div>
   );
 }

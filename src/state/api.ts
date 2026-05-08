@@ -99,6 +99,7 @@ export const api = {
   genreTracks: (name: string) =>
     getCached<Track[]>(`/api/library/genres/${encodeURIComponent(name)}/tracks`),
   state: () => get<PlayerState>("/api/player/state"),
+  battery: () => get<{ percent: number; charging: boolean }>("/api/system/battery"),
   play: (body?: { trackId?: string; playlistId?: string }) =>
     invalidatePlayer(post<{ ok: true }>("/api/player/play", body)),
   pause: () => invalidatePlayer(post<{ ok: true }>("/api/player/pause")),

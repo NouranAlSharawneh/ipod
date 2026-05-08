@@ -2,6 +2,7 @@ import express from "express";
 import library from "./routes/library.js";
 import player from "./routes/player.js";
 import artwork from "./routes/artwork.js";
+import system from "./routes/system.js";
 
 const app = express();
 app.use(express.json());
@@ -9,6 +10,7 @@ app.use(express.json());
 app.use("/api/library", library);
 app.use("/api/player", player);
 app.use("/api/artwork", artwork);
+app.use("/api/system", system);
 
 app.use((err: unknown, _req: express.Request, res: express.Response) => {
   console.error("[bridge]", err);

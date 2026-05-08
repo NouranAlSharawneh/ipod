@@ -5,12 +5,14 @@ import { api } from "./state/api";
 import { initialNav, keyOf, navReducer } from "./state/nav";
 import { loadView, MUSIC_ITEMS } from "./state/loadView";
 import { usePlayer } from "./hooks/usePlayer";
+import { useBattery } from "./hooks/useBattery";
 import { useQueue } from "./hooks/useQueue";
 import { useNavKeyboard } from "./hooks/useNavKeyboard";
 
 export default function App() {
   const [nav, dispatch] = useReducer(navReducer, initialNav);
   const player = usePlayer();
+  const battery = useBattery();
   const { start: startQueue, step: stepQueue } = useQueue();
 
   const top = nav.stack[nav.stack.length - 1];
@@ -139,7 +141,12 @@ export default function App() {
         className="ipod-frame rounded-[44px] flex flex-col items-center"
         style={{ width: 420, padding: 26, paddingTop: 32 }}
       >
-        <Screen frame={top} player={player} onActivate={onSelect} />
+        <Screen
+          frame={top}
+          player={player}
+          battery={battery}
+          onActivate={onSelect}
+        />
         <div style={{ height: 36 }} />
         <ClickWheel
           onScroll={onScroll}

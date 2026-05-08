@@ -10,12 +10,13 @@ export type MenuItem = {
 type Props = {
   items: MenuItem[];
   selected: number;
+  loaded?: boolean;
   onActivate?: (i: number) => void;
 };
 
 const ROW_HEIGHT = 22;
 
-export function MenuList({ items, selected, onActivate }: Props) {
+export function MenuList({ items, selected, loaded, onActivate }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -31,8 +32,15 @@ export function MenuList({ items, selected, onActivate }: Props) {
 
   if (!items.length) {
     return (
-      <div className="flex-1 flex items-center justify-center text-xs text-gray-500">
-        Empty
+      <div className="flex-1 flex flex-col items-center justify-center gap-2 text-xs text-gray-500">
+        {loaded === false ? (
+          <>
+            <span className="ipod-spinner" aria-hidden />
+            <span>Loading…</span>
+          </>
+        ) : (
+          <span>Empty</span>
+        )}
       </div>
     );
   }
