@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  --ipod-body: #f1f1f1;
+  --ipod-body-edge: #cfcfcf;
+  --ipod-bezel: #1a1a1a;
+  --ipod-screen-top: #c8d6dd;
+  --ipod-screen-bottom: #e8eef1;
+  --ipod-select-top: #5b8fe8;
+  --ipod-select-bottom: #2a5fb8;
+  --ipod-titlebar-top: #cdd5dc;
+  --ipod-titlebar-bottom: #8d99a4;
+  --ipod-wheel: #e8e8e8;
+  --ipod-wheel-shadow: #b8b8b8;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(ellipse at top, #2c2c2c, #0a0a0a);
+  font-family:
+    ui-sans-serif,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+.ipod-frame {
+  background: linear-gradient(180deg, #fbfbfb 0%, #e6e6e6 100%);
+  box-shadow:
+    inset 0 1px 0 #ffffff,
+    inset 0 -1px 0 #b8b8b8,
+    0 30px 60px rgba(0, 0, 0, 0.6),
+    0 0 0 1px #c0c0c0;
+}
+
+.ipod-screen {
+  background: linear-gradient(
+    180deg,
+    var(--ipod-screen-top) 0%,
+    var(--ipod-screen-bottom) 100%
+  );
+  box-shadow:
+    inset 0 0 0 6px #1a1a1a,
+    inset 0 0 0 7px #3a3a3a,
+    inset 0 4px 10px rgba(0, 0, 0, 0.35);
+}
+
+.ipod-titlebar {
+  background: linear-gradient(
+    180deg,
+    var(--ipod-titlebar-top) 0%,
+    var(--ipod-titlebar-bottom) 100%
+  );
+  border-bottom: 1px solid #5a6470;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.ipod-row-selected {
+  background: linear-gradient(
+    180deg,
+    var(--ipod-select-top) 0%,
+    var(--ipod-select-bottom) 100%
+  );
+  color: white;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.ipod-wheel {
+  background: radial-gradient(
+    circle at 50% 40%,
+    #f5f5f5 0%,
+    #d8d8d8 70%,
+    #c0c0c0 100%
+  );
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.7),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.ipod-center {
+  background: radial-gradient(circle at 50% 35%, #fdfdfd 0%, #e0e0e0 80%);
+  box-shadow:
+    inset 0 -2px 4px rgba(0, 0, 0, 0.15),
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+
+.wheel-label {
+  color: #4a4a4a;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+@keyframes ipod-marquee {
+  0%,
+  10% {
+    transform: translateX(0);
+  }
+  90%,
+  100% {
+    transform: translateX(var(--marquee-shift, -50%));
+  }
+}
+
+.ipod-marquee {
+  animation: ipod-marquee 8s ease-in-out infinite alternate;
+}
