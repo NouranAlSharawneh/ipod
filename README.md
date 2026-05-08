@@ -36,6 +36,8 @@ Vite proxies `/api/*` to the bridge, so the frontend just calls `/api/...`.
 
 ### Desktop-app mode
 
+> **Full setup, prerequisites, and internals** are documented in [`src-tauri/README.md`](./src-tauri/README.md). What follows is the quick path.
+
 ```bash
 npm run tauri:dev      # hot-reloading desktop app
 npm run tauri:build    # produces iPod.app + a .dmg
@@ -50,6 +52,8 @@ The packaged app:
 - Is **draggable by the silver bezel** around the screen and click wheel.
 - Has a **transparent window** so only the iPod is visible — no surrounding chrome.
 - Embeds the Express bridge as a **self-contained sidecar binary** (compiled by `bun build --compile`), bound to `127.0.0.1:38421`. No external Node runtime needed at runtime.
+
+See [`src-tauri/README.md`](./src-tauri/README.md) for prerequisites (Rust, Bun, Xcode CLT), the redeploy one-liner, the icon-replacement workflow, and a full troubleshooting list.
 
 ## Scripts
 

@@ -4,6 +4,8 @@ This directory wraps the iPod web app into a native macOS desktop application us
 
 The web app continues to run unchanged in the browser via `npm run dev`. The work in this folder only matters when you want the floating-on-the-desktop, no-Dock-icon, transparent-frame experience.
 
+> For the project as a whole — what it is, the click-wheel UI, the keyboard shortcuts, and the HTTP API the bridge exposes — see the [top-level README](../README.md). This file is scoped to the desktop-app shell.
+
 ---
 
 ## Prerequisites
