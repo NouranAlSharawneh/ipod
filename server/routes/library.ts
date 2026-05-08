@@ -93,7 +93,11 @@ tell application "Music"
     try
       set _kind to "user"
       if smart of p then set _kind to "smart"
-      set end of _lines to ((persistent ID of p) as text) & tab & (name of p) & tab & _kind & tab & ((count of tracks of p) as text)
+      set _coverId to ""
+      try
+        if (count of tracks of p) > 0 then set _coverId to (persistent ID of first track of p) as text
+      end try
+      set end of _lines to ((persistent ID of p) as text) & tab & (name of p) & tab & _kind & tab & ((count of tracks of p) as text) & tab & _coverId
     end try
   end repeat
 end tell
@@ -101,14 +105,16 @@ set AppleScript's text item delimiters to linefeed
 return _lines as text
 `),
     );
-    const playlists = parseTsv<[string, string, string, string]>(out, 4).map(
-      ([id, name, kind, count]) => ({
-        id,
-        name,
-        kind,
-        count: Number(count) || 0,
-      }),
-    );
+    const playlists = parseTsv<[string, string, string, string, string]>(
+      out,
+      5,
+    ).map(([id, name, kind, count, coverTrackId]) => ({
+      id,
+      name,
+      kind,
+      count: Number(count) || 0,
+      coverTrackId: coverTrackId || undefined,
+    }));
     res.json(playlists);
   } catch (e) {
     next(e);
@@ -120,17 +126,20 @@ r.get("/playlists/:pid/tracks", async (req, res, next) => {
     const pid = escapeAS(req.params.pid);
     const out = await memo(`playlist:${pid}`, TTL, () =>
       runScript(`
-set AppleScript's text item delimiters to tab
 tell application "Music"
   set _p to first user playlist whose persistent ID is "${pid}"
-  set _tracks to every track of _p
-  set _lines to {}
-  repeat with t in _tracks
-    try
-      set end of _lines to ((persistent ID of t) as text) & tab & (name of t) & tab & (artist of t) & tab & (album of t) & tab & ((duration of t) as text)
-    end try
-  end repeat
+  set _ids to persistent ID of every track of _p
+  set _names to name of every track of _p
+  set _artists to artist of every track of _p
+  set _albums to album of every track of _p
+  set _durs to duration of every track of _p
 end tell
+set _n to count of _ids
+set _lines to {}
+set AppleScript's text item delimiters to tab
+repeat with i from 1 to _n
+  set end of _lines to ((item i of _ids) as text) & tab & (item i of _names) & tab & (item i of _artists) & tab & (item i of _albums) & tab & ((item i of _durs) as text)
+end repeat
 set AppleScript's text item delimiters to linefeed
 return _lines as text
 `),

@@ -11,6 +11,7 @@ export type Playlist = {
   name: string;
   kind: string;
   count: number;
+  coverTrackId?: string;
 };
 export type Artist = { name: string; count: number };
 export type Album = { name: string; artist: string };
@@ -26,8 +27,18 @@ export type PlayerState = {
   id: string;
 };
 
+// In a Tauri build the Vite dev proxy isn't in the loop — call the bundled
+// Express bridge directly. In the browser, keep using relative paths so the
+// dev proxy (vite.config.ts) handles routing.
+const API_BASE =
+  typeof window !== "undefined" && "__TAURI_INTERNALS__" in window
+    ? "http://127.0.0.1:38421"
+    : "";
+
+const url = (path: string) => `${API_BASE}${path}`;
+
 async function get<T>(path: string): Promise<T> {
-  const res = await fetch(path);
+  const res = await fetch(url(path));
   if (!res.ok) throw new Error(`${path} → ${res.status}`);
   return res.json();
 }
@@ -65,7 +76,7 @@ function invalidate(prefix?: string) {
 }
 
 async function post<T>(path: string, body?: unknown): Promise<T> {
-  const res = await fetch(path, {
+  const res = await fetch(url(path), {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: body ? JSON.stringify(body) : undefined,
@@ -109,6 +120,6 @@ export const api = {
   seek: (position: number) =>
     invalidatePlayer(post<{ ok: true }>("/api/player/seek", { position })),
   shuffle: () => invalidatePlayer(post<{ ok: true }>("/api/player/shuffle")),
-  artworkUrl: (id: string) => `/api/artwork/${id}`,
+  artworkUrl: (id: string) => url(`/api/artwork/${id}`),
   invalidate,
 };

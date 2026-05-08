@@ -13,6 +13,7 @@ const trackItem = (i: number, t: Track, trailing: string): MenuItem => ({
   key: `${i}-${t.id}`,
   label: t.name,
   trailing,
+  leadingImage: t.id ? api.artworkUrl(t.id) : undefined,
 });
 
 export const MUSIC_ITEMS: { label: string; view: View }[] = [
@@ -61,6 +62,9 @@ export async function loadView(
           label: p.name,
           trailing: String(p.count),
           hasChildren: true,
+          leadingImage: p.coverTrackId
+            ? api.artworkUrl(p.coverTrackId)
+            : undefined,
         })),
         tracks: [],
       };

@@ -5,6 +5,7 @@ export type MenuItem = {
   label: string;
   trailing?: string;
   hasChildren?: boolean;
+  leadingImage?: string;
 };
 
 type Props = {
@@ -14,7 +15,8 @@ type Props = {
   onActivate?: (i: number) => void;
 };
 
-const ROW_HEIGHT = 22;
+const ROW_HEIGHT = 26;
+const THUMB_SIZE = 20;
 
 export function MenuList({ items, selected, loaded, onActivate }: Props) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -53,9 +55,23 @@ export function MenuList({ items, selected, loaded, onActivate }: Props) {
           <div
             key={item.key}
             onClick={() => onActivate?.(i)}
-            className={`flex items-center px-2 text-[13px] leading-none ${isSel ? "ipod-row-selected" : "text-black"}`}
+            className={`flex items-center gap-2 px-2 text-[13px] leading-none ${isSel ? "ipod-row-selected" : "text-black"}`}
             style={{ height: ROW_HEIGHT }}
           >
+            {item.leadingImage && (
+              <img
+                src={item.leadingImage}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="rounded-sm shrink-0 object-cover bg-black/10"
+                style={{ width: THUMB_SIZE, height: THUMB_SIZE }}
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).style.visibility =
+                    "hidden";
+                }}
+              />
+            )}
             <span className="flex-1 truncate">{item.label}</span>
             {item.trailing && (
               <span className="opacity-70 mr-1 text-[11px]">

@@ -135,28 +135,37 @@ export default function App() {
 
   useNavKeyboard({ onScroll, onSelect, onMenu, onPlayPause, onNext, onPrev });
 
+  const isTauri =
+    typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+
+  const ipod = (
+    <div
+      data-tauri-drag-region
+      className="ipod-frame rounded-[44px] flex flex-col items-center"
+      style={{ width: 420, padding: 26, paddingTop: 32 }}
+    >
+      <Screen
+        frame={top}
+        player={player}
+        battery={battery}
+        onActivate={onSelect}
+      />
+      <div style={{ height: 36 }} />
+      <ClickWheel
+        onScroll={onScroll}
+        onSelect={onSelect}
+        onMenu={onMenu}
+        onPlayPause={onPlayPause}
+        onNext={onNext}
+        onPrev={onPrev}
+      />
+    </div>
+  );
+
+  if (isTauri) return ipod;
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
-      <div
-        className="ipod-frame rounded-[44px] flex flex-col items-center"
-        style={{ width: 420, padding: 26, paddingTop: 32 }}
-      >
-        <Screen
-          frame={top}
-          player={player}
-          battery={battery}
-          onActivate={onSelect}
-        />
-        <div style={{ height: 36 }} />
-        <ClickWheel
-          onScroll={onScroll}
-          onSelect={onSelect}
-          onMenu={onMenu}
-          onPlayPause={onPlayPause}
-          onNext={onNext}
-          onPrev={onPrev}
-        />
-      </div>
+      {ipod}
     </div>
   );
 }
