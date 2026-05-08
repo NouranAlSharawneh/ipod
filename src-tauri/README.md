@@ -10,12 +10,12 @@ The web app continues to run unchanged in the browser via `npm run dev`. The wor
 
 Install once on your Mac:
 
-| Tool | Why | Install |
-|------|-----|---------|
-| **Rust** (1.77+) | Compiles the Tauri shell | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
-| **Bun** (≥1.3) | Compiles the Express bridge into a self-contained sidecar binary | `curl -fsSL https://bun.sh/install \| bash` |
-| **Xcode Command Line Tools** | Required by `cargo` and Tauri's macOS bundling | `xcode-select --install` |
-| **Node.js** (≥20) + project deps | Frontend tooling | `npm install` from the repo root |
+| Tool                             | Why                                                              | Install                                                           |
+| -------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------- |
+| **Rust** (1.77+)                 | Compiles the Tauri shell                                         | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
+| **Bun** (≥1.3)                   | Compiles the Express bridge into a self-contained sidecar binary | `curl -fsSL https://bun.sh/install \| bash`                       |
+| **Xcode Command Line Tools**     | Required by `cargo` and Tauri's macOS bundling                   | `xcode-select --install`                                          |
+| **Node.js** (≥20) + project deps | Frontend tooling                                                 | `npm install` from the repo root                                  |
 
 Verify:
 
@@ -114,15 +114,15 @@ On startup, in this order:
 
 ### What `tauri.conf.json` enables
 
-| Setting | Effect |
-|---|---|
-| `decorations: false` | No titlebar / traffic-light area — pure iPod silhouette |
-| `transparent: true` + `macOSPrivateApi: true` | True window transparency around the bezel's rounded corners |
-| `alwaysOnTop: false` | Default is **not** pinned. Use ⌘⇧I or the tray to pin. |
-| `resizable: false` | Fixed size matching the iPod component (440×700) |
-| `skipTaskbar: true` | Don't appear in the taskbar (not strictly needed on macOS but kept for parity) |
-| `shadow: false` | macOS-supplied window shadow turned off; the iPod's own CSS shadow handles it (and is removed in `.tauri` mode anyway) |
-| `externalBin: ["binaries/ipod-bridge"]` | Bundles the sidecar binary into `Contents/MacOS/` of the `.app` |
+| Setting                                       | Effect                                                                                                                 |
+| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `decorations: false`                          | No titlebar / traffic-light area — pure iPod silhouette                                                                |
+| `transparent: true` + `macOSPrivateApi: true` | True window transparency around the bezel's rounded corners                                                            |
+| `alwaysOnTop: false`                          | Default is **not** pinned. Use ⌘⇧I or the tray to pin.                                                                 |
+| `resizable: false`                            | Fixed size matching the iPod component (440×700)                                                                       |
+| `skipTaskbar: true`                           | Don't appear in the taskbar (not strictly needed on macOS but kept for parity)                                         |
+| `shadow: false`                               | macOS-supplied window shadow turned off; the iPod's own CSS shadow handles it (and is removed in `.tauri` mode anyway) |
+| `externalBin: ["binaries/ipod-bridge"]`       | Bundles the sidecar binary into `Contents/MacOS/` of the `.app`                                                        |
 
 ---
 
@@ -169,7 +169,7 @@ After regenerating, rebuild the app for the new icon to take effect.
 ## Troubleshooting
 
 - **"Music gets blocked / empty results"** — System Settings → Privacy & Security → Automation → enable Music for `iPod` (and for `osascript` / your terminal in dev mode).
-- **"App stays on top of everything forever"** — ⌘⇧I or the tray's *Toggle pin on top* unsticks it. Default is not pinned.
+- **"App stays on top of everything forever"** — ⌘⇧I or the tray's _Toggle pin on top_ unsticks it. Default is not pinned.
 - **"Bridge port already in use"** — a leftover dev sidecar or another iPod instance is holding `38421`. `pkill -f ipod-bridge` and relaunch.
 - **"I can't drag the window"** — drag from the silver bezel ring around the screen and click-wheel only; the screen and click-wheel themselves are intentionally non-draggable so their gestures keep working.
 - **"The app won't open — Apple says it's damaged"** — unsigned ad-hoc build. Right-click the app → **Open** the first time, or run `xattr -dr com.apple.quarantine /Applications/iPod.app`.
